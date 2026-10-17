@@ -77,6 +77,8 @@ From `backend/` with its virtual environment activated:
 pytest -q
 ```
 
+The RAG unit tests should run without an API key. The API tests also require all packages in `requirements.txt` to be installed, including `aiosqlite`.
+
 ## Data and configuration
 
 The default SQLite file is `backend/knowledge.db` and is created automatically. Set `DATABASE_URL` to use another SQLAlchemy async-compatible database URL. Do not commit `.env`, API keys, database files, virtual environments, `node_modules`, or build output.
