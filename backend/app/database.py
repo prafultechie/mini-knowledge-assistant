@@ -21,3 +21,11 @@ async def init_db() -> None:
     from app.models import Document, Chunk, QuestionLog  # noqa: F401
     async with engine.begin() as connection:
         await connection.run_sync(Base.metadata.create_all)
+        # create_all does not add columns to an existing SQLite database.
+        if engine.url.get_backend_name() == "sqlite":
+            result = await connection.exec_driver_sql("PRAGMA table_info(chunks)")
+            columns = {row[1] for row in result.fetchall()}
+            if "embedding_json" not in columns:
+                await connection.exec_driver_sql(
+                    "ALTER TABLE chunks ADD COLUMN embedding_json TEXT"
+                )

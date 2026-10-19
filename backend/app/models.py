@@ -25,6 +25,7 @@ class Chunk(Base):
     document_id: Mapped[int] = mapped_column(ForeignKey("documents.id", ondelete="CASCADE"), index=True)
     chunk_index: Mapped[int] = mapped_column(Integer)
     content: Mapped[str] = mapped_column(Text)
+    embedding_json: Mapped[str | None] = mapped_column(Text, nullable=True)
     document: Mapped[Document] = relationship(back_populates="chunks")
 
 
